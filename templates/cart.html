@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shopping Cart</title>
+<style>
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 3px solid #ccc;
+  border-color:black;
+  
+}
+.cart-item img {
+  width:100px;
+  height: 50px;
+  margin-right: 10px;
+}
+.item-details {
+  flex-grow: 1;
+  background-color:white;
+  font-size:20px;
+  font-weight:bold;
+}
+.item-price {
+  font-weight: bold;
+}
+.remove-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.clear-button {
+    background-color: orange;
+    color: white;
+    border: solid 2px;;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size:20px;
+    font-weight:bold;
+}
+.total-price {
+    font-size: 1.2em;
+    margin-top: 10px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<a href="{% url 'cart' %}"></a>
+<h1>Shopping Cart</h1>
+{% for item in cartitem %}
+<div id="cart-items">
+  <div class="cart-item">
+ {% if item.Product.image %}
+  <img src="{{ item.Product.image.url }}" alt="{{ item.Product.name }}">
+{% else %}
+  <p>No image uploaded</p>
+{% endif %}
+    <div class="item-details">
+     <p>{{ item.Product.name }}</p>
+  <form method="POST" action="{% url 'calculate_price' %}">
+  {% csrf_token %}
+            <input type="hidden" name="item_id" value="{{ item.id }}">
+            <input type="hidden" name="quantity" value="1">
+               <p>
+  Quantity: <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="item-quantity" data-price="{{ item.price }}">
+  <button type="submit" action="{% url 'update' item.id %}">Update</button>
+</p>
+  price: <input type="get_digit"  value="{{item.Product.price}}" name="price"/>
+    </div>
+   <span class="item-price">₹ {{ item.new_price }}</span>
+  </form> &nbsp;&nbsp;&nbsp;
+
+<form action="{% url 'remove_user' item.id %}" method="POST">
+    {% csrf_token %}
+    <button class="remove-button">Remove</button>
+</form>
+  </div>
+</div>
+{% endfor %}
+
+
+
+<form action="{% url 'remove_all' %}" method="POST">
+{% csrf_token %}
+<button class="clear-button">Clear Cart</button>
+</form>
+
+
+ <div>
+<form action="{% url 'total' %}" method="POST">
+  {% csrf_token %}
+<span class="item-price">Total: ₹ {{ total_price }}</span>
+    </form>
+<form action="{% url 'calculate_price' %}" method="POST">
+
+   </form>
+</div>
+<script>
+  // JavaScript code for updating the total and handling button clicks (removed for brevity, but would go here)
+</script>
+
+</body>
+</html>
+
+

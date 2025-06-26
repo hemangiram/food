@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shopping Cart</title>
+</head>
+<style>
+ .container {
+    font-size: 20px;
+    font-family: "timesince";
+    text-align: center; 
+    background-color:lightgrey/* Corrected: align-items:center should be text-align:center */
+  }
+
+  .detail-box {
+    padding: 10px 5px; /* Corrected: padding should be separated by a space */
+    border: 3px solid black; /* Corrected: border-color should be part of the border property */
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .client_section {
+    margin-bottom: 20px; /* Add some margin to the bottom */
+  }
+  .carousel-wrap {
+    display: flex; /* Or use another layout method if needed */
+    justify-content: center;
+  }
+  .item {
+    margin: 10px; /* Add some margin between items */
+  }
+
+
+
+</style>
+ 
+       <h1>What Says Our Customers </h1>      
+{% for i in feedback %}
+          <section class="client_section layout_padding-bottom">
+    <div class="container">
+      <div class="heading_container heading_center psudo_white_primary mb_45">
+       
+      </div>
+      <div class="carousel-wrap row ">
+        <div class="owl-carousel client_owl-carousel">
+          <div class="item">
+            <div class="box">
+              <div class="detail-box">
+                <p>
+                description:{{ i.description }}
+             <h4>
+                username:{{ i.user_name }}
+                </h4>
+                <p>
+                 Rating {{ i.rating }}
+                </p>
+              </div>
+             
+            </div>
+          </div>
+          {% endfor %}
+         
+  </section>
+</html>    
